@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unggah File Sederhana</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #475569;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            cursor: pointer;
+            color: #64748b;
+        }
+        input[type="file"]:hover {
+            border-color: #3b82f6;
+            background: #f0f7ff;
+        }
+        /* Style Komponen Preview Gambar */
+        .preview-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: none; /* Sembunyikan jika belum pilih file */
+            text-align: center;
+        }
+        .preview-container p {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        #imagePreview {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+        }
+        input[type="submit"]:hover {
+            background-color: #2563eb;
+        }
+        .note {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 15px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Unggah Berkas Baru</h2>
+    
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="fileToUpload">Pilih file untuk diunggah:</label>
+            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" required>
+        </div>
+        
+        <div class="preview-container" id="previewContainer">
+            <p>Pratinjau Gambar:</p>
+            <img id="imagePreview" src="" alt="Pratinjau">
+        </div>
+        
+        <input type="submit" value="Unggah File Sekarang" name="submit">
+    </form>
+
+    <small class="note">Hanya mendukung format: JPG, JPEG, PNG, & GIF (Maks. 500KB)</small>
+</div>
+
+<script>
+    // JavaScript untuk membaca file gambar lokal dan menampilkannya sebagai preview
+    const fileInput = document.getElementById('fileToUpload');
+    const previewContainer = document.getElementById('previewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.addEventListener('load', function() {
+                imagePreview.setAttribute('src', this.result);
+                previewContainer.style.display = 'block'; // Tampilkan wadah preview
+            });
+            
+            reader.readAsDataURL(file);
+        } else {
+            previewContainer.style.display = 'none'; // Sembunyikan jika batal pilih file
+            imagePreview.setAttribute('src', '');
+        }
+    });
+</script>
+
+</body>
+</html>
